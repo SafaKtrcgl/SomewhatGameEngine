@@ -1,6 +1,5 @@
-#include <iostream>
-
 #include "framework/Application.h"
+#include "framework/Logger.h"
 
 namespace SomewhatGameEngine
 {
@@ -26,13 +25,15 @@ namespace SomewhatGameEngine
 				}
 			}
 
-			accumulatedTime += _tickClock.restart().asSeconds();
+			float frameDeltaTime = _tickClock.restart().asSeconds();
+			accumulatedTime += frameDeltaTime;
 			while (accumulatedTime > targetDeltaTime)
 			{
 				accumulatedTime -= targetDeltaTime;
 				TickInternal(targetDeltaTime);
 				RenderInternal();
 			}
+			Logger::LogMessage("ticking at frame rate: " + std::to_string(1.f / frameDeltaTime));
 		}
 	}
 
