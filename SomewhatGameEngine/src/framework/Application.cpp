@@ -1,10 +1,15 @@
 #include "framework/Application.h"
 #include "framework/Logger.h"
+#include "framework/World.h"
 
 namespace SomewhatGameEngine
 {
 	Application::Application()
-		:_window{ sf::VideoMode(1920, 1080), "Star Blaster" }, _targetFPS{ 60.f }, _tickClock{}
+		:_window{ sf::VideoMode(1920, 1080),
+		"Star Blaster" },
+		_targetFPS{ 60.f },
+		_tickClock{},
+		currentWorld {nullptr}
 	{
 		
 	}
@@ -33,13 +38,17 @@ namespace SomewhatGameEngine
 				TickInternal(targetDeltaTime);
 				RenderInternal();
 			}
-			Logger::LogMessage("ticking at frame rate: " + std::to_string(1.f / frameDeltaTime));
 		}
 	}
 
 	void Application::TickInternal(float deltaTime)
 	{
 		Tick(deltaTime);
+
+		if (currentWorld)
+		{
+			currentWorld->TickInternal(deltaTime);
+		}
 	}
 
 	void Application::RenderInternal()
