@@ -1,5 +1,6 @@
 #include "gameFramework/GameApplication.h"
 #include "framework/World.h"
+#include "framework/Core.h"
 
 SomewhatGameEngine::Application* GetApplication()
 {
@@ -10,6 +11,12 @@ namespace SomewhatGameEngine
 {
 	GameApplication::GameApplication()
 	{
-		LoadWorld<World>();
+		weak<World> newWorld { LoadWorld<World>() };
+		newWorld.lock()->SpawnActor<Actor>();
+		newWorld.lock()->SpawnActor<Actor>();
+		newWorld.lock()->SpawnActor<Actor>();
+		newWorld.lock()->SpawnActor<Actor>();
+		newWorld.lock()->SpawnActor<Actor>();
+		newWorld.lock()->SpawnActor<Actor>();
 	}
 }
