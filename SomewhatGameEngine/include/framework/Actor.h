@@ -1,10 +1,12 @@
 #pragma once
 
+#include "framework/Object.h"
+
 namespace SomewhatGameEngine
 {
 	class World;
 
-	class Actor
+	class Actor : public Object
 	{
 	public:
 		Actor(World* owningWorld);

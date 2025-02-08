@@ -11,7 +11,7 @@ namespace SomewhatGameEngine
 
 	Actor::~Actor()
 	{
-
+		Logger::LogMessage("Actor destroyed");
 	}
 
 	void Actor::BeginPlayInternal()

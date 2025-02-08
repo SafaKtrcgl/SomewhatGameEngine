@@ -31,12 +31,20 @@ namespace SomewhatGameEngine
 		}
 		_pendingActors.clear();
 
-		Tick(deltaTime);
-
-		for (shared<Actor> actor : _actors)
+		for (auto iterator = _actors.begin(); iterator != _actors.end();)
 		{
-			actor->TickInternal(deltaTime);
+			if (iterator->get()->IsDestinedToDie())
+			{
+				iterator = _actors.erase(iterator);
+			}
+			else
+			{
+				iterator->get()->TickInternal(deltaTime);
+				++iterator;
+			}
 		}
+
+		Tick(deltaTime);
 	}
 
 	void World::BeginPlay()
