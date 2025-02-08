@@ -1,5 +1,7 @@
 #pragma once
 
+#include<SFML/Graphics.hpp>
+
 #include "framework/Object.h"
 
 namespace SomewhatGameEngine
@@ -9,16 +11,23 @@ namespace SomewhatGameEngine
 	class Actor : public Object
 	{
 	public:
-		Actor(World* owningWorld);
+		Actor(World* owningWorld, const std::string& texturePath = "");
 		virtual ~Actor();
 
 		void BeginPlayInternal();
 		void TickInternal(float deltaTime);
 
-	private:
+		void SetTexture(const std::string& texturePath);
+		void Render(sf::RenderWindow& window);
+
+	protected:
 		virtual void BeginPlay();
 		virtual void Tick(float deltaTime);
 
+	private:
 		World* _owningWorld;
+
+		sf::Sprite _sprite;
+		sf::Texture _texture;
 	};
 }

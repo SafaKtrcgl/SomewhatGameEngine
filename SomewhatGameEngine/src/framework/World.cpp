@@ -47,6 +47,14 @@ namespace SomewhatGameEngine
 		Tick(deltaTime);
 	}
 
+	void World::Render(sf::RenderWindow& window)
+	{
+		for (auto& actor : _actors)
+		{
+			actor->Render(window);
+		}
+	}
+
 	void World::BeginPlay()
 	{
 		//Logger::LogMessage("began play");

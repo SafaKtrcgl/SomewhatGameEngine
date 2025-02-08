@@ -10,9 +10,11 @@ SomewhatGameEngine::Application* GetApplication()
 namespace SomewhatGameEngine
 {
 	GameApplication::GameApplication()
+		: Application{1280, 720, "Star Blaster Game", sf::Style::Titlebar | sf::Style::Close}
 	{
 		weak<World> newWorld { LoadWorld<World>() };
 		_actorToDestroy = newWorld.lock()->SpawnActor<Actor>();
+		_actorToDestroy.lock()->SetTexture("C:/SomewhatGameEngine/SomewhatGameEngine/StarBlasterGame/assets/SpaceShooterRedux/PNG/playerShip1_blue.png");
 		newWorld.lock()->SpawnActor<Actor>();
 		_counter = 0.f;
 	}
