@@ -1,6 +1,7 @@
 #include "gameFramework/GameApplication.h"
 #include "framework/World.h"
 #include "framework/Core.h"
+#include "config.h"
 
 SomewhatGameEngine::Application* GetApplication()
 {
@@ -14,7 +15,7 @@ namespace SomewhatGameEngine
 	{
 		weak<World> newWorld { LoadWorld<World>() };
 		_actorToDestroy = newWorld.lock()->SpawnActor<Actor>();
-		_actorToDestroy.lock()->SetTexture("C:/SomewhatGameEngine/SomewhatGameEngine/StarBlasterGame/assets/SpaceShooterRedux/PNG/playerShip1_blue.png");
+		_actorToDestroy.lock()->SetTexture(GetResourceDirectory() + "SpaceShooterRedux/PNG/playerShip1_blue.png");
 		newWorld.lock()->SpawnActor<Actor>();
 		_counter = 0.f;
 	}

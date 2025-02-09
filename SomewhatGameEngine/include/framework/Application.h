@@ -28,15 +28,17 @@ namespace SomewhatGameEngine
 		float _targetFPS;
 		sf::Clock _tickClock;
 
-		shared<World> currentWorld;
+		shared<World> _currentWorld;
+		sf::Clock _unloadAssetClock;
+		float _unloadAssetInterval;
 	};
 
 	template<typename WorldType>
 	weak<WorldType> Application::LoadWorld()
 	{
 		shared<WorldType> newWorld{ new WorldType(this) };
-		currentWorld = newWorld;
-		currentWorld->BeginPlayInternal();
+		_currentWorld = newWorld;
+		_currentWorld->BeginPlayInternal();
 		return newWorld;
 	}
 }

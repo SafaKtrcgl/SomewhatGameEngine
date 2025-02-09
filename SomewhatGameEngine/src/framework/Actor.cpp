@@ -1,5 +1,6 @@
 #include "framework/Actor.h"
 #include "framework/Logger.h"
+#include "framework/AssetManager.h"
 
 namespace SomewhatGameEngine
 {
@@ -33,11 +34,17 @@ namespace SomewhatGameEngine
 
 	void Actor::SetTexture(const std::string& texturePath)
 	{
-		_texture.loadFromFile(texturePath);
-		_sprite.setTexture(_texture);
+		_texture = AssetManager::Instance().LoadTexture(texturePath);
+		if (!_texture)
+		{
+			Logger::LogMessage("Texture is not set!");		//TODO: log error instead of message!
+			return;
+		}
 
-		int textureWidth = _texture.getSize().x;
-		int textureHeight = _texture.getSize().y;
+		_sprite.setTexture(*_texture);
+
+		int textureWidth = _texture->getSize().x;
+		int textureHeight = _texture->getSize().y;
 		_sprite.setTextureRect(sf::IntRect{ sf::Vector2i{}, sf::Vector2i{textureWidth, textureHeight} });
 	}
 
@@ -53,11 +60,9 @@ namespace SomewhatGameEngine
 
 	void Actor::BeginPlay()
 	{
-		Logger::LogMessage("Actor begin play");
 	}
 
 	void Actor::Tick(float deltaTime)
 	{
-		Logger::LogMessage("Actor tick");
 	}
 }

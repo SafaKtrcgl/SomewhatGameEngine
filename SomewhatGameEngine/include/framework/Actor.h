@@ -3,6 +3,7 @@
 #include<SFML/Graphics.hpp>
 
 #include "framework/Object.h"
+#include "framework/Core.h"
 
 namespace SomewhatGameEngine
 {
@@ -28,6 +29,6 @@ namespace SomewhatGameEngine
 		World* _owningWorld;
 
 		sf::Sprite _sprite;
-		sf::Texture _texture;
+		shared<sf::Texture> _texture;
 	};
 }

@@ -1,0 +1,11 @@
+#pragma once
+#include <string>
+
+std::string GetResourceDirectory()
+{
+#ifdef NDEBUG
+	return "@RESOURCES_FOLDER_NAME@/";
+#else
+	return "@RESOURCES_DIRECTORY@/";
+#endif
+}

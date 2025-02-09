@@ -1,6 +1,7 @@
 #include "framework/Application.h"
 #include "framework/Logger.h"
 #include "framework/World.h"
+#include "framework/AssetManager.h"
 
 namespace SomewhatGameEngine
 {
@@ -8,7 +9,9 @@ namespace SomewhatGameEngine
 		:_window{ sf::VideoMode(windowWidth, windowHeight), title, style },
 		_targetFPS{ 60.f },
 		_tickClock{},
-		currentWorld{ nullptr }
+		_currentWorld{ nullptr },
+		_unloadAssetClock{},
+		_unloadAssetInterval{ 5.f }
 	{
 
 	}
@@ -37,6 +40,8 @@ namespace SomewhatGameEngine
 				TickInternal(targetDeltaTime);
 				RenderInternal();
 			}
+
+
 		}
 	}
 
@@ -44,9 +49,15 @@ namespace SomewhatGameEngine
 	{
 		Tick(deltaTime);
 
-		if (currentWorld)
+		if (_currentWorld)
 		{
-			currentWorld->TickInternal(deltaTime);
+			_currentWorld->TickInternal(deltaTime);
+		}
+
+		if (_unloadAssetClock.getElapsedTime().asSeconds() >= _unloadAssetInterval)			//TODO: refactoring would be needed!
+		{
+			_unloadAssetClock.restart();
+			AssetManager::Instance().UnloadUnusedTextures();
 		}
 	}
 
@@ -66,9 +77,9 @@ namespace SomewhatGameEngine
 
 	void Application::Render()
 	{
-		if (currentWorld)
+		if (_currentWorld)
 		{
-			currentWorld->Render(_window);
+			_currentWorld->Render(_window);
 		}
 	}
 }
