@@ -16,6 +16,9 @@ namespace SomewhatGameEngine
 		weak<World> newWorld { LoadWorld<World>() };
 		_actorToDestroy = newWorld.lock()->SpawnActor<Actor>();
 		_actorToDestroy.lock()->SetTexture(GetResourceDirectory() + "SpaceShooterRedux/PNG/playerShip1_blue.png");
+		_actorToDestroy.lock()->SetActorPosition(sf::Vector2f(640.f, 360.f));
+		_actorToDestroy.lock()->SetActorRotation(90.f);
+
 		newWorld.lock()->SpawnActor<Actor>();
 		_counter = 0.f;
 	}

@@ -1,6 +1,7 @@
 #include "framework/Actor.h"
 #include "framework/Logger.h"
 #include "framework/AssetManager.h"
+#include "framework/MathUtility.h"
 
 namespace SomewhatGameEngine
 {
@@ -46,6 +47,7 @@ namespace SomewhatGameEngine
 		int textureWidth = _texture->getSize().x;
 		int textureHeight = _texture->getSize().y;
 		_sprite.setTextureRect(sf::IntRect{ sf::Vector2i{}, sf::Vector2i{textureWidth, textureHeight} });
+		CenterPivot();
 	}
 
 	void Actor::Render(sf::RenderWindow& window)
@@ -58,11 +60,57 @@ namespace SomewhatGameEngine
 		window.draw(_sprite);
 	}
 
+	void Actor::SetActorPosition(const sf::Vector2f& newPosition)
+	{
+		_sprite.setPosition(newPosition);
+	}
+
+	void Actor::SetActorRotation(const float newRotation)
+	{
+		_sprite.setRotation(newRotation);
+	}
+
+	void Actor::AddActorPositionOffset(const sf::Vector2f& positionOffset)
+	{
+		SetActorPosition(GetActorPosition() + positionOffset);
+	}
+
+	void Actor::AddActorRotationOffset(const float rotationOffset)
+	{
+		SetActorRotation(GetActorRotation() + rotationOffset);
+	}
+
+	sf::Vector2f Actor::GetActorPosition() const
+	{
+		return _sprite.getPosition();
+	}
+
+	float Actor::GetActorRotation() const
+	{
+		return _sprite.getRotation();
+	}
+
+	sf::Vector2f Actor::GetActorForwardDirection() const
+	{
+		return RotationToVector(GetActorRotation());
+	}
+
+	sf::Vector2f Actor::GetActorRightDirection() const
+	{
+		return RotationToVector(GetActorRotation() + 90.f);
+	}
+
 	void Actor::BeginPlay()
 	{
 	}
 
 	void Actor::Tick(float deltaTime)
 	{
+	}
+
+	void Actor::CenterPivot()
+	{
+		sf::FloatRect bound = _sprite.getGlobalBounds();
+		_sprite.setOrigin(bound.width / 2.f, bound.height / 2.f);
 	}
 }

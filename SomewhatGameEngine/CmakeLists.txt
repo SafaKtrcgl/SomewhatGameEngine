@@ -17,6 +17,9 @@ add_library(${SOMEWHAT_GAME_ENGINE_TARGET_NAME} STATIC
 	${CMAKE_CURRENT_SOURCE_DIR}/include/framework/AssetManager.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/framework/AssetManager.cpp
 
+	${CMAKE_CURRENT_SOURCE_DIR}/include/framework/MathUtility.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/framework/MathUtility.cpp
+
 	${CMAKE_CURRENT_SOURCE_DIR}/include/framework/Logger.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/framework/Logger.cpp
 
