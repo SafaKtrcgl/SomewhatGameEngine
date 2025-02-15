@@ -24,7 +24,7 @@ namespace SomewhatGameEngine
 		}
 
 		shared<sf::Texture> newTexture{ new sf::Texture };
-		if (newTexture->loadFromFile(path))
+		if (newTexture->loadFromFile(_rootDirectory + path))
 		{
 			_loadedTextureMap.insert({path, newTexture});
 			return newTexture;
@@ -49,7 +49,13 @@ namespace SomewhatGameEngine
 		}
 	}
 
+	void AssetManager::SetRootDirectory(const std::string& directory)
+	{
+		_rootDirectory = directory;
+	}
+
 	AssetManager::AssetManager()
+		: _rootDirectory {}
 	{
 	}
 }

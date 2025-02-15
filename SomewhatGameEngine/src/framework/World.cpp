@@ -1,5 +1,6 @@
 #include "framework/World.h"
 #include "framework/Actor.h"
+#include "framework/Application.h"
 #include "framework/Logger.h"
 
 namespace SomewhatGameEngine
@@ -53,6 +54,11 @@ namespace SomewhatGameEngine
 		{
 			actor->Render(window);
 		}
+	}
+
+	sf::Vector2u World::GetWindowSize() const
+	{
+		return _owningApplication->GetWindowSize();
 	}
 
 	void World::BeginPlay()

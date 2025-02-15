@@ -12,6 +12,7 @@ namespace SomewhatGameEngine
 		static AssetManager& Instance();
 		shared<sf::Texture> LoadTexture(const std::string& path);
 		void UnloadUnusedTextures();
+		void SetRootDirectory(const std::string& directory);
 
 	protected:
 		AssetManager();
@@ -19,5 +20,6 @@ namespace SomewhatGameEngine
 	private:
 		static unique<AssetManager> _assetManager;
 		Dictionary<std::string, shared<sf::Texture>> _loadedTextureMap;
+		std::string _rootDirectory;
 	};
 }

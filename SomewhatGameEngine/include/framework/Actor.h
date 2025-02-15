@@ -33,14 +33,16 @@ namespace SomewhatGameEngine
 		sf::Vector2f GetActorForwardDirection() const;
 		sf::Vector2f GetActorRightDirection() const;
 
+		sf::Vector2i GetSpriteSize() const;
+
 	protected:
 		virtual void BeginPlay();
 		virtual void Tick(float deltaTime);
 
+		World* _owningWorld;
+
 	private:
 		void CenterPivot();
-
-		World* _owningWorld;
 
 		sf::Sprite _sprite;
 		shared<sf::Texture> _texture;

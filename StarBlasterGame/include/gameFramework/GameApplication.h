@@ -4,7 +4,7 @@
 
 namespace SomewhatGameEngine
 {
-	class Actor;
+	class PlayerSpaceship;
 
 	class GameApplication : public Application
 	{
@@ -14,6 +14,6 @@ namespace SomewhatGameEngine
 	
 	private:
 		float _counter;
-		weak<Actor> _actorToDestroy;
+		weak<PlayerSpaceship> _playerSpaceship;
 	};
 }

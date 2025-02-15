@@ -100,6 +100,11 @@ namespace SomewhatGameEngine
 		return RotationToVector(GetActorRotation() + 90.f);
 	}
 
+	sf::Vector2i Actor::GetSpriteSize() const
+	{
+		return _sprite.getTextureRect().getSize();
+	}
+
 	void Actor::BeginPlay()
 	{
 	}

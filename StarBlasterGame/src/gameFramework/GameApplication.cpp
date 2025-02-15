@@ -1,6 +1,11 @@
 #include "gameFramework/GameApplication.h"
+
 #include "framework/World.h"
 #include "framework/Core.h"
+#include "framework/AssetManager.h"
+
+#include "gameElements/spaceship/PlayerSpaceship.h"
+
 #include "config.h"
 
 SomewhatGameEngine::Application* GetApplication()
@@ -13,13 +18,14 @@ namespace SomewhatGameEngine
 	GameApplication::GameApplication()
 		: Application{1280, 720, "Star Blaster Game", sf::Style::Titlebar | sf::Style::Close}
 	{
+		AssetManager::Instance().SetRootDirectory(GetResourceDirectory());
 		weak<World> newWorld { LoadWorld<World>() };
-		_actorToDestroy = newWorld.lock()->SpawnActor<Actor>();
-		_actorToDestroy.lock()->SetTexture(GetResourceDirectory() + "SpaceShooterRedux/PNG/playerShip1_blue.png");
-		_actorToDestroy.lock()->SetActorPosition(sf::Vector2f(640.f, 360.f));
-		_actorToDestroy.lock()->SetActorRotation(90.f);
+		_playerSpaceship = newWorld.lock()->SpawnActor<PlayerSpaceship>();
+		//_playerSpaceship.lock()->SetTexture(GetResourceDirectory() + );
+		_playerSpaceship.lock()->SetActorPosition(sf::Vector2f(640.f, 360.f));
+		//_playerSpaceship.lock()->SetActorRotation(90.f);
+		//_playerSpaceship.lock()->SetVelocity(sf::Vector2f(0.f, -200.f));
 
-		newWorld.lock()->SpawnActor<Actor>();
 		_counter = 0.f;
 	}
 
@@ -27,9 +33,9 @@ namespace SomewhatGameEngine
 	{
 		_counter += deltaTime;
 
-		if (_counter >= 2.f && !_actorToDestroy.expired())
+		if (_counter >= 5.f && !_playerSpaceship.expired())
 		{
-			_actorToDestroy.lock()->Destroy();
+			//_playerSpaceship.lock()->Destroy();
 		}
 	}
 }
