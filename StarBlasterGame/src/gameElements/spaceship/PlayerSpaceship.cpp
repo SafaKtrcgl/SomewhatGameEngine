@@ -4,12 +4,14 @@
 #include "SFML/System.hpp"
 
 #include "gameElements/spaceship/PlayerSpaceship.h"
+#include "gameElements/weapon/BulletShooter.h"
 
 namespace SomewhatGameEngine
 {
 	PlayerSpaceship::PlayerSpaceship(World* owningWorld, const std::string& path)
 		: Spaceship { owningWorld, path, 200.f },
-		_moveInput {}
+		_moveInput {},
+		_bulletShooter{ new BulletShooter{this} }
 	{
 
 	}
@@ -20,6 +22,14 @@ namespace SomewhatGameEngine
 		ListenInput();
 		HandleInput();
 		ConsumeInput(deltaTime);
+	}
+
+	void PlayerSpaceship::Shoot()
+	{
+		if (_bulletShooter)
+		{
+			_bulletShooter->Shoot();
+		}
 	}
 
 	void PlayerSpaceship::ListenInput()
@@ -40,6 +50,11 @@ namespace SomewhatGameEngine
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 		{
 			_moveInput.x = -1.f;
+		}
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+		{
+			Shoot();
 		}
 	}
 

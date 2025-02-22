@@ -14,6 +14,7 @@ namespace SomewhatGameEngine
 		void SetSpeed(float speed);
 		float GetSpeed();
 
+		virtual void Shoot();
 	private:
 		sf::Vector2f _velocity;
 		float _speed;

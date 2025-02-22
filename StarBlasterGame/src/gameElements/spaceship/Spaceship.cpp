@@ -1,3 +1,5 @@
+#include "framework/MathUtility.h"
+
 #include "gameElements/spaceship/Spaceship.h"
 
 namespace SomewhatGameEngine
@@ -34,5 +36,9 @@ namespace SomewhatGameEngine
 	float Spaceship::GetSpeed()
 	{
 		return _speed;
+	}
+
+	void Spaceship::Shoot()
+	{
 	}
 }

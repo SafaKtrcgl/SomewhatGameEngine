@@ -34,15 +34,8 @@ namespace SomewhatGameEngine
 
 		for (auto iterator = _actors.begin(); iterator != _actors.end();)
 		{
-			if (iterator->get()->IsDestinedToDie())
-			{
-				iterator = _actors.erase(iterator);
-			}
-			else
-			{
-				iterator->get()->TickInternal(deltaTime);
-				++iterator;
-			}
+			iterator->get()->TickInternal(deltaTime);
+			++iterator;
 		}
 
 		Tick(deltaTime);
@@ -59,6 +52,21 @@ namespace SomewhatGameEngine
 	sf::Vector2u World::GetWindowSize() const
 	{
 		return _owningApplication->GetWindowSize();
+	}
+
+	void World::CleanCycle()
+	{
+		for (auto iterator = _actors.begin(); iterator != _actors.end();)
+		{
+			if (iterator->get()->IsDestinedToDie())
+			{
+				iterator = _actors.erase(iterator);
+			}
+			else
+			{
+				++iterator;
+			}
+		}
 	}
 
 	void World::BeginPlay()

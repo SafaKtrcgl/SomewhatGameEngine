@@ -34,7 +34,7 @@ namespace SomewhatGameEngine
 		return shared<sf::Texture> {nullptr};
 	}
 
-	void AssetManager::UnloadUnusedTextures()
+	void AssetManager::CleanCycle()
 	{
 		for (auto iterator = _loadedTextureMap.begin(); iterator != _loadedTextureMap.end();)
 		{

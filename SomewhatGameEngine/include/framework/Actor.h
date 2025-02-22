@@ -35,6 +35,10 @@ namespace SomewhatGameEngine
 
 		sf::Vector2i GetSpriteSize() const;
 
+		World* GetOwningWorld() const;
+		bool IsActorOutOfScreen() const;
+		sf::FloatRect GetActorGlobalBounds() const;
+
 	protected:
 		virtual void BeginPlay();
 		virtual void Tick(float deltaTime);

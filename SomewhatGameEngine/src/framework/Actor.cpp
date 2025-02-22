@@ -2,6 +2,7 @@
 #include "framework/Logger.h"
 #include "framework/AssetManager.h"
 #include "framework/MathUtility.h"
+#include "framework/World.h"
 
 namespace SomewhatGameEngine
 {
@@ -103,6 +104,25 @@ namespace SomewhatGameEngine
 	sf::Vector2i Actor::GetSpriteSize() const
 	{
 		return _sprite.getTextureRect().getSize();
+	}
+
+	World* Actor::GetOwningWorld() const
+	{
+		return _owningWorld;
+	}
+
+	bool Actor::IsActorOutOfScreen() const
+	{
+		sf::Vector2u windowSize{ _owningWorld->GetWindowSize() };
+		sf::FloatRect actorBounds{ GetActorGlobalBounds() };
+		sf::Vector2f actorPosition{ GetActorPosition() };
+
+		return actorPosition.x < -actorBounds.width || actorPosition.x > actorBounds.width + windowSize.x || actorPosition.y < -actorBounds.height || actorPosition.y > actorBounds.height + windowSize.y;
+	}
+
+	sf::FloatRect Actor::GetActorGlobalBounds() const
+	{
+		return _sprite.getGlobalBounds();
 	}
 
 	void Actor::BeginPlay()

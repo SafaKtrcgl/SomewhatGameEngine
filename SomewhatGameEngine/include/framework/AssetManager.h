@@ -11,7 +11,7 @@ namespace SomewhatGameEngine
 	public:
 		static AssetManager& Instance();
 		shared<sf::Texture> LoadTexture(const std::string& path);
-		void UnloadUnusedTextures();
+		void CleanCycle();
 		void SetRootDirectory(const std::string& directory);
 
 	protected:

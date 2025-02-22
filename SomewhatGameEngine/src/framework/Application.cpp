@@ -62,7 +62,11 @@ namespace SomewhatGameEngine
 		if (_unloadAssetClock.getElapsedTime().asSeconds() >= _unloadAssetInterval)			//TODO: refactoring would be needed!
 		{
 			_unloadAssetClock.restart();
-			AssetManager::Instance().UnloadUnusedTextures();
+			AssetManager::Instance().CleanCycle();
+			if (_currentWorld)
+			{
+				_currentWorld->CleanCycle();
+			}
 		}
 	}
 
