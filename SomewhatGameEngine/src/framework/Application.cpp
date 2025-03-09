@@ -2,6 +2,7 @@
 #include "framework/Logger.h"
 #include "framework/World.h"
 #include "framework/AssetManager.h"
+#include "framework/PhysicsSystem.h"
 
 namespace SomewhatGameEngine
 {
@@ -58,6 +59,8 @@ namespace SomewhatGameEngine
 		{
 			_currentWorld->TickInternal(deltaTime);
 		}
+
+		PhysicsSystem::Instance().Tick(deltaTime);
 
 		if (_unloadAssetClock.getElapsedTime().asSeconds() >= _unloadAssetInterval)			//TODO: refactoring would be needed!
 		{

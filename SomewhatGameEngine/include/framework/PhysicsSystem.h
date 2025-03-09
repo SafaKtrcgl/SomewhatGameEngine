@@ -5,10 +5,15 @@
 
 namespace SomewhatGameEngine
 {
+	class Actor;
+
 	class PhysicsSystem
 	{
 	public:
 		static PhysicsSystem& Instance();
+		void Tick(float deltaTime);
+		b2Body* AddListener(Actor* listener);
+		float GetPhysicsScale() const;
 
 	protected:
 		PhysicsSystem();
@@ -17,5 +22,7 @@ namespace SomewhatGameEngine
 		static unique<PhysicsSystem> _physicsSystem;
 		b2World _physicsWorld;
 		float _physicsScale;
+		int _velocityIterations;
+		int _positionIterations;
 	};
 }
