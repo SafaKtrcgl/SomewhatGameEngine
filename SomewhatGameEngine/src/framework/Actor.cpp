@@ -1,15 +1,20 @@
+#include <box2d/b2_body.h>
+
 #include "framework/Actor.h"
 #include "framework/Logger.h"
 #include "framework/AssetManager.h"
 #include "framework/MathUtility.h"
 #include "framework/World.h"
+#include "framework/PhysicsSystem.h"
 
 namespace SomewhatGameEngine
 {
 	Actor::Actor(World* owningWorld, const std::string& texturePath)
 		: _owningWorld{ owningWorld },
 		_sprite{},
-		_texture{}
+		_texture{},
+		_physicsBody{ nullptr },
+		_isPhysicsEnabled{ false }
 	{
 		SetTexture(texturePath);
 	}
@@ -64,11 +69,13 @@ namespace SomewhatGameEngine
 	void Actor::SetActorPosition(const sf::Vector2f& newPosition)
 	{
 		_sprite.setPosition(newPosition);
+		UpdatePhysicsBodyTransform();
 	}
 
 	void Actor::SetActorRotation(const float newRotation)
 	{
 		_sprite.setRotation(newRotation);
+		UpdatePhysicsBodyTransform();
 	}
 
 	void Actor::AddActorPositionOffset(const sf::Vector2f& positionOffset)
@@ -125,12 +132,73 @@ namespace SomewhatGameEngine
 		return _sprite.getGlobalBounds();
 	}
 
+	void Actor::SetPhysicsEnabled(bool isEnabled)
+	{
+		if (_isPhysicsEnabled == isEnabled)
+		{
+			return;
+		}
+
+		_isPhysicsEnabled = isEnabled;
+		if (_isPhysicsEnabled)
+		{
+			EnablePhysics();
+		}
+		else
+		{
+			DisablePhysics();
+		}
+	}
+
+	void Actor::OnActorBeginOverlap(Actor* other)
+	{
+		Logger::LogMessage("Begin overlap");
+	}
+
+	void Actor::OnActorEndOverlap(Actor* other)
+	{
+		Logger::LogMessage("End overlap");
+	}
+
 	void Actor::BeginPlay()
 	{
 	}
 
 	void Actor::Tick(float deltaTime)
 	{
+	}
+
+	void Actor::EnablePhysics()
+	{
+		if (!_physicsBody)
+		{
+			_physicsBody = PhysicsSystem::Instance().AddListener(this);
+		}
+	}
+
+	void Actor::DisablePhysics()
+	{
+		if (_physicsBody)
+		{
+			PhysicsSystem::Instance().RemoveListener(_physicsBody);
+		}
+	}
+
+	void Actor::UpdatePhysicsBodyTransform()
+	{
+		if (!_isPhysicsEnabled)
+		{
+			return;
+		}
+		if (_physicsBody)
+		{
+			float physicsScale = PhysicsSystem::Instance().GetPhysicsScale();
+			sf::Vector2f actorPosition = GetActorPosition();
+			b2Vec2 pos{ actorPosition.x * physicsScale, actorPosition.y * physicsScale };
+
+			float rotation = DegreesToRadians(GetActorRotation());
+			_physicsBody->SetTransform(pos, rotation);
+		}
 	}
 
 	void Actor::CenterPivot()

@@ -41,4 +41,11 @@ namespace SomewhatGameEngine
 	void Spaceship::Shoot()
 	{
 	}
+
+	void Spaceship::BeginPlay()
+	{
+		Actor::BeginPlay();
+
+		SetPhysicsEnabled(true);
+	}
 }

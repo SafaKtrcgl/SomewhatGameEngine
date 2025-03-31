@@ -5,6 +5,8 @@
 #include "framework/Object.h"
 #include "framework/Core.h"
 
+class b2Body;
+
 namespace SomewhatGameEngine
 {
 	class World;
@@ -39,6 +41,10 @@ namespace SomewhatGameEngine
 		bool IsActorOutOfScreen() const;
 		sf::FloatRect GetActorGlobalBounds() const;
 
+		void SetPhysicsEnabled(bool isEnabled);
+		virtual void OnActorBeginOverlap(Actor* other);
+		virtual void OnActorEndOverlap(Actor* other);
+
 	protected:
 		virtual void BeginPlay();
 		virtual void Tick(float deltaTime);
@@ -46,9 +52,14 @@ namespace SomewhatGameEngine
 		World* _owningWorld;
 
 	private:
+		void EnablePhysics();
+		void DisablePhysics();
+		void UpdatePhysicsBodyTransform();
 		void CenterPivot();
 
 		sf::Sprite _sprite;
 		shared<sf::Texture> _texture;
+		b2Body* _physicsBody;
+		bool _isPhysicsEnabled;
 	};
 }

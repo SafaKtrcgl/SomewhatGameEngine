@@ -21,12 +21,13 @@ namespace SomewhatGameEngine
 		AssetManager::Instance().SetRootDirectory(GetResourceDirectory());
 		weak<World> newWorld { LoadWorld<World>() };
 		_playerSpaceship = newWorld.lock()->SpawnActor<PlayerSpaceship>();
-		//_playerSpaceship.lock()->SetTexture(GetResourceDirectory() + );
-		_playerSpaceship.lock()->SetActorPosition(sf::Vector2f(640.f, 360.f));
+		_playerSpaceship.lock()->SetActorPosition(sf::Vector2f{ 640.f, 360.f });
 		_playerSpaceship.lock()->SetActorRotation(-90.f);
-		//_playerSpaceship.lock()->SetVelocity(sf::Vector2f(0.f, -200.f));
 
-		_counter = 0.f;
+		weak<Spaceship> testShip = newWorld.lock()->SpawnActor<Spaceship>("SpaceShooterRedux/PNG/playerShip1_red\.png", 0.f);
+		testShip.lock()->SetActorPosition(sf::Vector2f{ 100.f, 50.f });
+
+		_counter = 0.f; 
 	}
 
 	void GameApplication::Tick(float deltaTime)

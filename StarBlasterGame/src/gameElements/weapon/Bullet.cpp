@@ -20,6 +20,13 @@ namespace SomewhatGameEngine
 		_damage = damage;
 	}
 
+	void Bullet::BeginPlay()
+	{
+		Actor::BeginPlay();
+
+		SetPhysicsEnabled(true);
+	}
+
 	void Bullet::Tick(float deltaTime)
 	{
 		Actor::Tick(deltaTime);

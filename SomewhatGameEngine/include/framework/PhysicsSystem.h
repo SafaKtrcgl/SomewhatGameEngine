@@ -6,6 +6,11 @@
 namespace SomewhatGameEngine
 {
 	class Actor;
+	class PhysicsContactListener : public b2ContactListener
+	{
+		virtual void BeginContact(b2Contact* contact) override;
+		virtual void EndContact(b2Contact* contact) override;
+	};
 
 	class PhysicsSystem
 	{
@@ -13,6 +18,7 @@ namespace SomewhatGameEngine
 		static PhysicsSystem& Instance();
 		void Tick(float deltaTime);
 		b2Body* AddListener(Actor* listener);
+		bool RemoveListener(b2Body* body);
 		float GetPhysicsScale() const;
 
 	protected:
@@ -24,5 +30,6 @@ namespace SomewhatGameEngine
 		float _physicsScale;
 		int _velocityIterations;
 		int _positionIterations;
+		PhysicsContactListener _contactListener;
 	};
 }

@@ -12,6 +12,7 @@ namespace SomewhatGameEngine
 		void SetSpeed(float speed);
 		void SetDamage(int damage);
 
+		virtual void BeginPlay() override;
 		virtual void Tick(float deltaTime) override;
 
 	private:

@@ -1,10 +1,12 @@
 #include <box2d/b2_body.h>
 #include <box2d/b2_polygon_shape.h>
 #include <box2d/b2_fixture.h>
+#include <box2d/b2_contact.h>
 
 #include "framework/PhysicsSystem.h"
 #include "framework/Actor.h"
 #include "framework/MathUtility.h"
+#include "framework/Logger.h"
 
 namespace SomewhatGameEngine
 {
@@ -57,6 +59,11 @@ namespace SomewhatGameEngine
 		return body;
 	}
 
+	bool PhysicsSystem::RemoveListener(b2Body* body)
+	{
+		return false;
+	}
+
 	float PhysicsSystem::GetPhysicsScale() const
 	{
 		return _physicsScale;
@@ -66,8 +73,49 @@ namespace SomewhatGameEngine
 		: _physicsWorld{ b2Vec2{0.0f, 0.0f} },
 		_physicsScale{ 0.01f },
 		_velocityIterations{ 8 },
-		_positionIterations{ 3 }
+		_positionIterations{ 3 },
+		_contactListener{}
 	{
+		_physicsWorld.SetContactListener(&_contactListener);
+		_physicsWorld.SetAllowSleeping(false);
+	}
 
+	void PhysicsContactListener::BeginContact(b2Contact* contact)
+	{
+		Actor* primaryActor = reinterpret_cast<Actor*>(contact->GetFixtureA()->GetBody()->GetUserData().pointer);
+		Actor* secondaryActor = reinterpret_cast<Actor*>(contact->GetFixtureB()->GetBody()->GetUserData().pointer);
+
+		if (primaryActor && !primaryActor->IsDestinedToDie())
+		{
+			primaryActor->OnActorBeginOverlap(secondaryActor);
+		}
+		if (secondaryActor && !secondaryActor->IsDestinedToDie())
+		{
+			secondaryActor->OnActorBeginOverlap(primaryActor);
+		}
+	}
+
+	void PhysicsContactListener::EndContact(b2Contact* contact)
+	{
+		Actor* primaryActor = nullptr;
+		if (contact->GetFixtureA() && contact->GetFixtureA()->GetBody())
+		{
+			primaryActor = reinterpret_cast<Actor*>(contact->GetFixtureA()->GetBody()->GetUserData().pointer);
+		}
+
+		Actor* secondaryActor = nullptr;
+		if (contact->GetFixtureB() && contact->GetFixtureB()->GetBody())
+		{
+			secondaryActor = reinterpret_cast<Actor*>(contact->GetFixtureB()->GetBody()->GetUserData().pointer);
+		}
+
+		if (primaryActor && !primaryActor->IsDestinedToDie())
+		{
+			primaryActor->OnActorEndOverlap(secondaryActor);
+		}
+		if (secondaryActor && !secondaryActor->IsDestinedToDie())
+		{
+			secondaryActor->OnActorEndOverlap(primaryActor);
+		}
 	}
 }
