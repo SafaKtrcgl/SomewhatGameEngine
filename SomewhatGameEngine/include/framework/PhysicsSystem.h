@@ -18,18 +18,21 @@ namespace SomewhatGameEngine
 		static PhysicsSystem& Instance();
 		void Tick(float deltaTime);
 		b2Body* AddListener(Actor* listener);
-		bool RemoveListener(b2Body* body);
+		void RemoveListener(b2Body* body);
 		float GetPhysicsScale() const;
+		static void Cleanup();
 
 	protected:
 		PhysicsSystem();
 
 	private:
+		void RemoveListeners();
 		static unique<PhysicsSystem> _physicsSystem;
 		b2World _physicsWorld;
 		float _physicsScale;
 		int _velocityIterations;
 		int _positionIterations;
 		PhysicsContactListener _contactListener;
+		Set<b2Body*> _destinedToDieListeners;
 	};
 }

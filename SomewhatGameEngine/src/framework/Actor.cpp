@@ -160,6 +160,12 @@ namespace SomewhatGameEngine
 		Logger::LogMessage("End overlap");
 	}
 
+	void Actor::Destroy()
+	{
+		DisablePhysics();
+		Object::Destroy();
+	}
+
 	void Actor::BeginPlay()
 	{
 	}
@@ -181,6 +187,7 @@ namespace SomewhatGameEngine
 		if (_physicsBody)
 		{
 			PhysicsSystem::Instance().RemoveListener(_physicsBody);
+			_physicsBody = nullptr;
 		}
 	}
 

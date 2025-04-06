@@ -8,7 +8,7 @@ namespace SomewhatGameEngine
 		Object();
 		virtual ~Object();
 
-		void Destroy();
+		virtual void Destroy();
 		bool IsDestinedToDie() const { return _isDestinedToDie; }
 	private:
 		bool _isDestinedToDie;

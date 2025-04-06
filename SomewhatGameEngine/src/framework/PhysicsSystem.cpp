@@ -24,6 +24,7 @@ namespace SomewhatGameEngine
 
 	void PhysicsSystem::Tick(float deltaTime)
 	{
+		RemoveListeners();
 		_physicsWorld.Step(deltaTime, _velocityIterations, _positionIterations);
 	}
 
@@ -59,9 +60,9 @@ namespace SomewhatGameEngine
 		return body;
 	}
 
-	bool PhysicsSystem::RemoveListener(b2Body* body)
+	void PhysicsSystem::RemoveListener(b2Body* body)
 	{
-		return false;
+		_destinedToDieListeners.insert(body);
 	}
 
 	float PhysicsSystem::GetPhysicsScale() const
@@ -69,15 +70,31 @@ namespace SomewhatGameEngine
 		return _physicsScale;
 	}
 
+	void PhysicsSystem::Cleanup()
+	{
+		_physicsSystem = std::move(unique<PhysicsSystem>{ new PhysicsSystem });
+	}
+
 	PhysicsSystem::PhysicsSystem()
 		: _physicsWorld{ b2Vec2{0.0f, 0.0f} },
 		_physicsScale{ 0.01f },
 		_velocityIterations{ 8 },
 		_positionIterations{ 3 },
-		_contactListener{}
+		_contactListener{},
+		_destinedToDieListeners{}
 	{
 		_physicsWorld.SetContactListener(&_contactListener);
 		_physicsWorld.SetAllowSleeping(false);
+	}
+
+	void PhysicsSystem::RemoveListeners()
+	{
+		for (auto listener : _destinedToDieListeners)
+		{
+			_physicsWorld.DestroyBody(listener);
+		}
+
+		_destinedToDieListeners.clear();
 	}
 
 	void PhysicsContactListener::BeginContact(b2Contact* contact)

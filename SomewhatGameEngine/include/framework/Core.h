@@ -3,6 +3,7 @@
 #include <memory>
 #include <map>
 #include <unordered_map>
+#include <unordered_set>
 
 namespace SomewhatGameEngine
 {
@@ -18,6 +19,9 @@ namespace SomewhatGameEngine
 
 	template<typename T>
 	using List = std::vector<T>;
+
+	template<typename T>
+	using Set = std::unordered_set<T>;
 
 	template<typename keyType, typename valueType, typename predicate = std::less<keyType>>
 	using Map = std::map<keyType, valueType, predicate>;

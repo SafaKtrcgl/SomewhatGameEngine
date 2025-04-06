@@ -36,7 +36,7 @@ namespace SomewhatGameEngine
 
 		if (_counter >= 5.f && !_playerSpaceship.expired())
 		{
-			//_playerSpaceship.lock()->Destroy();
+			_playerSpaceship.lock()->Destroy();
 		}
 	}
 }
